@@ -1,0 +1,24 @@
+{
+  "name": "polly",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js",
+    "front": "npm run start --prefix front",
+    "front:install": "npm install --prefix front",
+    "front:build": "npm run build --prefix front",
+    "dev": "concurrently \"npm run server\" \"npm run front\" --ignore client"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "concurrently": "^7.6.0",
+    "cubitrix_accounts_v2": "0.0.5",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.8.1",
+    "nodemon": "^2.0.20"
+  }
+}
