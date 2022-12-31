@@ -1,16 +1,18 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const path = require("path");
-const {accounts, router} = require('cubitrix_accounts_v2');
+const cors = require('cors');
+const corsOptions = require('./config/corsOptions');
+const credentials = require('./middleware/credentials');
+const { accounts, router } = require('@cubitrix/cubitrix-node-accounts-module');
 require('dotenv').config();
 
-
 const app = express();
-app.use(express.json({ extended: true }))
+app.use(express.json({ extended: true }));
+app.use(credentials);
+app.use(cors(corsOptions));
 console.log(accounts.index("jinx1"));
-app.use('/accounts', router)
-
-
+app.use('/accounts', router);
 
 // const auth = require('./modules/auth/routes/index.routes');
 // const staking = require('./modules/staking/routes/index.routes');
