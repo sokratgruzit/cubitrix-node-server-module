@@ -11,7 +11,7 @@ const app = express();
 app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(corsOptions));
-console.log(accounts.index("jinx1"));
+
 app.use('/accounts', router);
 
 // const auth = require('./modules/auth/routes/index.routes');
