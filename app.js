@@ -33,7 +33,22 @@ app.get("/images/:img", (req, res) => {
 });
 
 app.post("/profile", upload.single("img"), (req, res) => {
-  console.log(accounts, "shiiit");
+  if (req.file) {
+    var filePath = req.file.path;
+
+    fs.rename(
+      __dirname.split("/src")[0] + "/" + filePath,
+      __dirname.split("/src")[0] + "/uploads/" + address + ".png",
+      function (err) {
+        if (err) {
+          res.json({ success: false, message: err });
+          return;
+        }
+      },
+    );
+  } else if (req.body.img === "null") {
+    fs.unlink(__dirname.split("/src")[0] + "/uploads/" + address + ".png", (err) => {});
+  }
 });
 
 // const auth = require('./modules/auth/routes/index.routes');
