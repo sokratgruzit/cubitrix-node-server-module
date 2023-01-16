@@ -16,6 +16,9 @@ app.use(cors())
 
 const PORT = process.env.PORT || 5000;
 
+app.use(bodyParser.urlencoded({
+   extended: true
+ }));
 app.use('/api/auth', auth);
 app.use('/api/content', content);
 app.use('/api/data', data);
