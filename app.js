@@ -4,19 +4,19 @@ const mongoose = require("mongoose");
 const path = require("path");
 const config = require("config");
 const cors = require("cors");
-const corsOptions = require("./config/corsOptions");
+const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
 const { accounts, router } = require("@cubitrix/cubitrix-node-accounts-module");
 require("dotenv").config();
 process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
-const auth = require("./admin/routes/auth.routes");
-const content = require("./admin/routes/content.routes");
-const data = require("./admin/routes/data.routes");
+const auth = require("./admin/routes/auth_routes");
+const content = require("./admin/routes/content_routes");
+const data = require("./admin/routes/data_routes");
 
 const app = express();
 app.use(express.json({ extended: true }));
 app.use(credentials);
-app.use(cors(corsOptions));
+app.use(cors(cors_options));
 
 app.use("/accounts", router);
 app.use(
