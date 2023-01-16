@@ -1,41 +1,41 @@
-const User = require("../models/user");
-const Role = require("../models/role");
+const user = require("../models/user");
+const role = require("../models/role");
 const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const config = require("config");
 
 async function register(email, password) {
-  const candidate = await User.findOne({ email });
-  const userRole = await Role.findOne({ value: "USER" });
+  const candidate = await user.findOne({ email });
+  const user_role = await role.findOne({ value: "user" });
 
   if (candidate) {
     return {
       status: 400,
-      message: "User exists",
+      message: "user exists",
     };
   }
 
-  const hashedPassword = await bcrypt.hash(password, 12);
-  const user = new User({
+  const hashed_password = await bcrypt.hash(password, 12);
+  const user = new user({
     email,
-    password: hashedPassword,
-    roles: userRole.value,
+    password: hashed_password,
+    roles: user_role.value,
   });
   await user.save();
 
   return {
     status: 200,
-    message: "User created",
+    message: "user created",
   };
 }
 
 async function login(email, password) {
-  const user = await User.findOne({ email });
+  const user = await user.findOne({ email });
 
   if (!user) {
     return {
       status: 400,
-      message: "User not found",
+      message: "user not found",
     };
   }
 
@@ -71,17 +71,17 @@ async function login(email, password) {
   };
 }
 
-async function getUsers() {
-  // const useRole =  new Role();
-  // const adminRole = new Role({value: 'ADMIN'})
+async function get_users() {
+  // const userole =  new role();
+  // const adminrole = new role({value: 'ADMIN'})
 
-  // await useRole.save();
-  // await adminRole.save();
+  // await userole.save();
+  // await adminrole.save();
   return { message: "succesfully created" };
 }
 
 module.exports = {
   register,
   login,
-  getUsers,
+  get_users,
 };

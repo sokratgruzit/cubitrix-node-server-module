@@ -13,7 +13,7 @@ const schema = new Schema(
     },
     roles: {
       type: String,
-      ref: "Role",
+      ref: "role",
     },
   },
   {
@@ -21,4 +21,4 @@ const schema = new Schema(
   }
 );
 
-module.exports = model("User", schema);
+module.exports = model("user", schema);
