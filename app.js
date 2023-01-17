@@ -1,20 +1,25 @@
 const express = require("express");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
+// const config = require("config");
 const cors = require("cors");
-const corsOptions = require("./config/corsOptions");
+const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
 const { accounts, router } = require("@cubitrix/cubitrix-node-accounts-module");
 require("dotenv").config();
+process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
+const auth = require("./admin/routes/auth_routes");
+const content = require("./admin/routes/content_routes");
+const data = require("./admin/routes/data_routes");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
-
 const app = express();
 app.use(express.json({ extended: true }));
 app.use(credentials);
-app.use(cors(corsOptions));
+app.use(cors(cors_options));
 
 app.use("/accounts", router);
 
@@ -51,17 +56,18 @@ app.post("/profile", upload.single("img"), (req, res) => {
   }
 });
 
-// const auth = require('./modules/auth/routes/index.routes');
-// const staking = require('./modules/staking/routes/index.routes');
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
+app.use("/api/auth", auth);
+app.use("/api/content", content);
+app.use("/api/data", data);
 
-//load modules depend env file
-// if(process.env.AUTH === 'true') app.use('/api/auth', auth);
-// if(process.env.STAKING === 'true') app.use('/api/staking', staking);
-
-// //test route
-// app.get("/test", (req, res) => {
-//    res.send("server is working");
-// });
+app.get("/api/test", (req, res) => {
+  res.send("test");
+});
 
 //static path
 const root = require("path").join(__dirname, "front", "build");
