@@ -6,7 +6,7 @@ const config = require("config");
 
 async function register(email, password) {
   const candidate = await user.findOne({ email });
-  const user_role = await role.findOne({ value: "user" });
+  let user_role = await role.findOne({ value: "user" });
 
   if (candidate) {
     return {
@@ -14,14 +14,20 @@ async function register(email, password) {
       message: "user exists",
     };
   }
-
+  if(!user_role){
+    user_role = new role({
+      value: 'user'
+    });
+    await user_role.save();
+  }
+  
   const hashed_password = await bcrypt.hash(password, 12);
-  const user = new user({
+  const result = new user({
     email,
     password: hashed_password,
     roles: user_role.value,
   });
-  await user.save();
+  await result.save();
 
   return {
     status: 200,
