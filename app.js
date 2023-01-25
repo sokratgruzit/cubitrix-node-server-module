@@ -6,7 +6,7 @@ const path = require("path");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
-const { accounts, router } = require("@cubitrix/cubitrix-node-accounts-module");
+const { accounts, router } = require("@brilliant_emporium/accounts");
 require("dotenv").config();
 process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
 const auth = require("./admin/routes/auth_routes");
