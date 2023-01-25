@@ -4,10 +4,7 @@ const path = require("path");
 const cors = require("cors");
 const corsOptions = require("./config/corsOptions");
 const credentials = require("./middleware/credentials");
-const {
-  accounts,
-  accounts_index,
-} = require("@cubitrix/cubitrix-node-accounts-module");
+const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-globals-module");
 require("dotenv").config();
 
@@ -16,7 +13,7 @@ app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(corsOptions));
 
-app.use("/accounts", accounts_index);
+app.use("/accounts", accounts);
 
 // const auth = require('./modules/auth/routes/index.routes');
 // const staking = require('./modules/staking/routes/index.routes');
