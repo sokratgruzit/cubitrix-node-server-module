@@ -6,12 +6,13 @@ const config = require("config");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
-const { accounts, router } = require("@cubitrix/cubitrix-node-accounts-module");
-require("dotenv").config();
+const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
 const auth = require("./admin/routes/auth_routes");
 const content = require("./admin/routes/content_routes");
 const data = require("./admin/routes/data_routes");
+const { transactions } = require("@cubitrix/cubitrix-node-globals-module");
+require("dotenv").config();
 
 const app = express();
 app.use(express.json({ extended: true }));
@@ -31,7 +32,6 @@ app.use("/api/data", data);
 app.get("/api/test", (req, res) => {
   res.send("test");
 });
-
 //static path
 const root = require("path").join(__dirname, "front", "build");
 app.use(express.static(root));
