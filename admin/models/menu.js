@@ -10,4 +10,5 @@ const menu = new mongoose.Schema(
     timestamps: true,
   }
 );
+
 module.exports = mongoose.model("menu", menu);

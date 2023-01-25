@@ -21,6 +21,7 @@ async function register(email, password) {
     password: hashed_password,
     roles: user_role.value,
   });
+  
   await user.save();
 
   return {

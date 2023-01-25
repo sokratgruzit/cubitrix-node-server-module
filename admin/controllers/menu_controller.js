@@ -10,6 +10,7 @@ async function get_menu(req, res) {
     res.status(500).json({ message: "Something get wront, try again" });
   }
 }
+
 async function update_menu(req, res) {
   try {
   } catch (e) {
@@ -17,6 +18,7 @@ async function update_menu(req, res) {
     res.status(500).json({ message: "Something get wront, try again" });
   }
 }
+
 async function change_menu_status(req, res) {
   try {
   } catch (e) {
