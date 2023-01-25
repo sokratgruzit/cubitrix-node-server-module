@@ -19,7 +19,7 @@ app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(cors_options));
 
-app.use("/accounts", router);
+app.use("/accounts", accounts);
 app.use(
   bodyParser.urlencoded({
     extended: true,
