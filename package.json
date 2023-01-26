@@ -22,10 +22,10 @@
   },
   "homepage": "https://github.com/sokratgruzit/cubitrix-node-server-module#readme",
   "dependencies": {
-    "@brilliant_emporium/accounts": "0.0.3",
     "bcryptjs": "^2.4.3",
-    "body-parser": "^1.20.0",
-    "config": "^3.3.7",
+    "@cubitrix/cubitrix-node-accounts-module": "0.0.11",
+    "@cubitrix/cubitrix-node-globals-module": "0.0.3",
+    "concurrently": "^7.6.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.2",
@@ -39,6 +39,7 @@
   },
   "devDependencies": {
     "concurrently": "^7.3.0",
-    "nodemon": "^2.0.19"
+    "nodemon": "^2.0.19",
+    "mongoose": "^6.8.1"
   }
 }

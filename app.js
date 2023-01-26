@@ -1,17 +1,19 @@
 const express = require("express");
-const bodyParser = require("body-parser");
-const mongoose = require("mongoose");
-const path = require("path");
-// const config = require("config");
-const cors = require("cors");
-const cors_options = require("./config/cors_options");
-const credentials = require("./middleware/credentials");
-const { accounts, router } = require("@brilliant_emporium/accounts");
-require("dotenv").config();
-process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
 const auth = require("./admin/routes/auth_routes");
 const content = require("./admin/routes/content_routes");
 const data = require("./admin/routes/data_routes");
+const mongoose = require("mongoose");
+const path = require("path");
+const cors = require("cors");
+const corsOptions = require("./config/corsOptions");
+const credentials = require("./middleware/credentials");
+const {
+  accounts,
+  accounts_index,
+} = require("@cubitrix/cubitrix-node-accounts-module");
+const { transactions } = require("@cubitrix/cubitrix-node-globals-module");
+require("dotenv").config();
+process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
@@ -21,7 +23,7 @@ app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(cors_options));
 
-app.use("/accounts", router);
+app.use("/accounts", accounts_index);
 
 app.get("/images/:img", (req, res) => {
   try {
@@ -85,7 +87,9 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
