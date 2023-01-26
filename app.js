@@ -6,28 +6,27 @@ const config = require("config");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
-const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
-process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
-const auth = require("./admin/routes/auth_routes");
-const content = require("./admin/routes/content_routes");
-const data = require("./admin/routes/data_routes");
-const { transactions } = require("@cubitrix/cubitrix-node-globals-module");
+process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
+const {
+  admin_auth,
+  admin_content,
+  admin_data,
+} = require("@cubitrix/cubitrix-node-admin-module");
 require("dotenv").config();
-
+const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 const app = express();
 app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(cors_options));
-
-app.use("/accounts", accounts);
 app.use(
   bodyParser.urlencoded({
     extended: true,
   })
 );
-app.use("/api/auth", auth);
-app.use("/api/content", content);
-app.use("/api/data", data);
+app.use("/accounts", accounts);
+app.use("/api/auth", admin_auth);
+app.use("/api/content", admin_content);
+app.use("/api/data", admin_data);
 
 app.get("/api/test", (req, res) => {
   res.send("test");
@@ -35,10 +34,6 @@ app.get("/api/test", (req, res) => {
 //static path
 const root = require("path").join(__dirname, "front", "build");
 app.use(express.static(root));
-
-app.get("*", function (req, res) {
-  res.sendFile("index.html", { root });
-});
 
 async function start() {
   const PORT = process.env.PORT || 5000;
