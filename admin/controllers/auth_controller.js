@@ -16,7 +16,7 @@ async function login(req, res) {
   try {
     const { email, password } = req.body;
     const result = await auth.login(email, password);
-
+    
     return res
     .status(result.status)
     .json({

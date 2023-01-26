@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const config = require('config');
+const config = require('../config/default.json');
 
 module.exports = (req, res, next) => {
   if (req.method === 'OPTIONS') {
@@ -13,7 +13,7 @@ module.exports = (req, res, next) => {
       return res.status(401).json({ message: 'You are not autorized' });
     }
 
-    const decoded = jwt.verify(token, config.get('jwtSecret'));
+    const decoded = jwt.verify(token, config.jwtSecret);
 
     if (decoded.roles != 'ADMIN') {
       return res.status(401).json({ message: 'You have not permission' });

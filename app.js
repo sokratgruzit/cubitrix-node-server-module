@@ -38,6 +38,7 @@ app.use("/api/auth", auth);
 app.use("/api/content", content);
 app.use("/api/data", data);
 
+
 // Db connection and server setup
 async function start() {
    const PORT = process.env.PORT || 5000;
