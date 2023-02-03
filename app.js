@@ -1,29 +1,33 @@
 const express = require("express");
-const auth = require("./admin/routes/auth_routes");
-const content = require("./admin/routes/content_routes");
-const data = require("./admin/routes/data_routes");
+const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
+const config = require("config");
 const cors = require("cors");
-const corsOptions = require("./config/corsOptions");
+const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
+process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 const {
-  accounts,
-  accounts_index,
-} = require("@cubitrix/cubitrix-node-accounts-module");
-const { transactions } = require("@cubitrix/cubitrix-node-globals-module");
+  admin_auth,
+  admin_content,
+  admin_data,
+} = require("@cubitrix/cubitrix-node-admin-module");
 require("dotenv").config();
-process.env["NODE_CONFIG_DIR"] = __dirname + "/admin/config";
+const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
+
 const app = express();
 app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(cors_options));
-
-app.use("/accounts", accounts_index);
+app.use(
+  bodyParser.urlencoded({
+    extended: true,
+  }),
+);
 
 app.get("/images/:img", (req, res) => {
   try {
@@ -39,7 +43,13 @@ app.get("/images/:img", (req, res) => {
   }
 });
 
-app.post("/profile", upload.single("img"), (req, res) => {
+app.post("/profile", upload.single("img"), async (req, res) => {
+  const { address } = req.body;
+
+  if (!address && req.auth?.address) {
+    address = req.auth.address;
+  }
+
   if (req.file) {
     var filePath = req.file.path;
 
@@ -49,35 +59,28 @@ app.post("/profile", upload.single("img"), (req, res) => {
       function (err) {
         if (err) {
           res.json({ success: false, message: err });
-          return;
+        } else {
+          res.status(200).json("updated");
         }
       },
     );
-  } else if (req.body.img === "null") {
+  } else {
     fs.unlink(__dirname.split("/src")[0] + "/uploads/" + address + ".png", (err) => {});
+    res.status(200).json("image deleted");
   }
 });
 
-app.use(
-  bodyParser.urlencoded({
-    extended: true,
-  }),
-);
-app.use("/api/auth", auth);
-app.use("/api/content", content);
-app.use("/api/data", data);
+app.use("/accounts", accounts);
+app.use("/api/auth", admin_auth);
+app.use("/api/content", admin_content);
+app.use("/api/data", admin_data);
 
 app.get("/api/test", (req, res) => {
   res.send("test");
 });
-
 //static path
 const root = require("path").join(__dirname, "front", "build");
 app.use(express.static(root));
-
-app.get("*", function (req, res) {
-  res.sendFile("index.html", { root });
-});
 
 async function start() {
   const PORT = process.env.PORT || 5000;
@@ -87,9 +90,7 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
