@@ -25,7 +25,6 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
     "concurrently": "^7.6.0",
-    "config": "^3.3.7",
     "cors": "^2.8.5",
     "dotenv": "^16.0.2",
     "express": "^4.18.2",
@@ -39,8 +38,8 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
-    "@cubitrix/cubitrix-node-accounts-module": "0.0.28",
-    "@cubitrix/cubitrix-node-admin-module": "0.0.6",
+    "@cubitrix/cubitrix-node-accounts-module": "0.0.32",
+    "@cubitrix/cubitrix-node-admin-module": "0.0.7",
     "@cubitrix/cubitrix-node-globals-module": "0.0.6",
     "mongoose": "^6.4.6"
   }
