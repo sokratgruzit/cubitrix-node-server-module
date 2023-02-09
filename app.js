@@ -99,7 +99,7 @@ app.post("/api/test", async (req, res) => {
     } else {
       response = passed.data[t];
     }
-    console.log(passed.data.git_url)
+    console.log(passed.data)
     return res.send(response);
   });
 });
