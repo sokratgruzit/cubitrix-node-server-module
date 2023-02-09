@@ -6,13 +6,21 @@ const config = require("config");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
+const { Octokit } = require("@octokit/rest");
+
+require("dotenv").config();
+
+const octokit = new Octokit({
+  auth: process.env.OCTOKIT
+});
+
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 const {
   admin_auth,
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
-require("dotenv").config();
+
 const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 
 const multer = require("multer");
@@ -75,8 +83,25 @@ app.use("/api/auth", admin_auth);
 app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
 
-app.get("/api/test", (req, res) => {
-  res.send("test");
+app.post("/api/test", async (req, res) => {
+  const { o, r, p, t } = req.body;
+
+  await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
+    owner: o,
+    repo: r,
+    path: p //'blockchains/aeternity/info/logo.png'
+  })
+  .then(passed => {
+    let response = null;
+
+    if (t === "content") {
+      response = Buffer.from(passed.data[t], 'base64').toString();
+    } else {
+      response = passed.data[t];
+    }
+    console.log(passed.data.git_url)
+    return res.send(response);
+  });
 });
 //static path
 const root = require("path").join(__dirname, "front", "build");
