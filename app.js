@@ -75,7 +75,7 @@ app.post("/profile", upload.single("img"), async (req, res) => {
 });
 
 app.use("/accounts", accounts);
-app.use("/transactions", transactions);
+app.use("/api/transactions", transactions);
 app.use("/api/auth", admin_auth);
 app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
