@@ -36,11 +36,11 @@
     "multer": "^1.4.5-lts.1",
     "uuid": "^3.4.0"
   },
-  "devDependencies": { 
+  "devDependencies": {
     "nodemon": "^2.0.20",
     "@cubitrix/cubitrix-node-accounts-module": "0.0.33",
     "@cubitrix/cubitrix-node-admin-module": "0.0.9",
-    "@cubitrix/cubitrix-node-globals-module": "0.0.8",
+    "@cubitrix/cubitrix-node-globals-module": "0.0.9",
     "mongoose": "^6.4.6"
   }
 }
