@@ -14,7 +14,7 @@ const {
 } = require("@cubitrix/cubitrix-node-admin-module");
 require("dotenv").config();
 const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
-const { transactions } = require("@cubitrix/cubitrix-node-globals-module");
+const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });

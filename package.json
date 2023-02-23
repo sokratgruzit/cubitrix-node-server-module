@@ -38,9 +38,10 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
-    "@cubitrix/cubitrix-node-accounts-module": "0.0.33",
+    "@cubitrix/cubitrix-node-transactions-module": "0.0.4",
+    "@cubitrix/cubitrix-node-accounts-module": "0.0.34",
     "@cubitrix/cubitrix-node-admin-module": "0.0.9",
-    "@cubitrix/cubitrix-node-globals-module": "0.0.9",
+    "@cubitrix/cubitrix-node-globals-module": "0.0.10",
     "mongoose": "^6.4.6"
   }
 }
