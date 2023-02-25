@@ -38,10 +38,12 @@
   },
   "devDependencies": {
     "nodemon": "^2.0.20",
-    "@cubitrix/cubitrix-node-transactions-module": "0.0.4",
-    "@cubitrix/cubitrix-node-accounts-module": "0.0.34",
-    "@cubitrix/cubitrix-node-admin-module": "0.0.9",
-    "@cubitrix/cubitrix-node-globals-module": "0.0.10",
+    "@cubitrix/models": "0.0.16",
+    "@cubitrix/cubitrix-node-transactions-module": "0.0.5",
+    "@cubitrix/cubitrix-node-accounts-module": "0.0.35",
+    "@cubitrix/cubitrix-node-admin-module": "0.0.10",
+    "@cubitrix/cubitrix-node-globals-module": "0.0.11",
+    "@cubitrix/cubitrix-refferal-node-module": "0.0.2",
     "mongoose": "^6.4.6"
   }
 }

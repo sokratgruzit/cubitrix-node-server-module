@@ -15,6 +15,7 @@ const {
 require("dotenv").config();
 const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
+const { referral } = require("@cubitrix/cubitrix-refferal-node-module");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
@@ -76,6 +77,7 @@ app.post("/profile", upload.single("img"), async (req, res) => {
 
 app.use("/accounts", accounts);
 app.use("/api/transactions", transactions);
+app.use("/api/referral", referral);
 app.use("/api/auth", admin_auth);
 app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
