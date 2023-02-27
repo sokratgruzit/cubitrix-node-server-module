@@ -2,11 +2,20 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
-const config = require("config");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
 const { Octokit } = require("@octokit/rest");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+const fs = require("fs");
+const app = express();
+const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
+const {
+  admin_auth,
+  admin_content,
+  admin_data,
+} = require("@cubitrix/cubitrix-node-admin-module");
 
 require("dotenv").config();
 
@@ -15,19 +24,7 @@ const octokit = new Octokit({
 });
 
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
-const {
-  admin_auth,
-  admin_content,
-  admin_data,
-} = require("@cubitrix/cubitrix-node-admin-module");
 
-const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
-
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-const fs = require("fs");
-
-const app = express();
 app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(cors_options));
@@ -87,9 +84,9 @@ app.post("/api/test", async (req, res) => {
   const { o, r, p, t } = req.body;
 
   await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-    owner: o,
-    repo: r,
-    path: p //'blockchains/aeternity/info/logo.png'
+    owner: o, //Owner of the repo (github username)
+    repo: r, //Name of the repo
+    path: p //Absolute path to file, for example: 'blockchains/aeternity/info/logo.png'
   })
   .then(passed => {
     let response = null;
@@ -97,7 +94,7 @@ app.post("/api/test", async (req, res) => {
     if (t === "content") {
       response = Buffer.from(passed.data[t], 'base64').toString();
     } else {
-      response = passed.data[t];
+      response = passed.data[t /* Property from response object ('content', 'git_url', 'html_url', etc.) */];
     }
     console.log(passed.data)
     return res.send(response);
