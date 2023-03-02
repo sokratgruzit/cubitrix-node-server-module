@@ -16,6 +16,7 @@ require("dotenv").config();
 const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const { referral } = require("@cubitrix/cubitrix-refferal-node-module");
+const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
 
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
@@ -28,7 +29,7 @@ app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 
 app.get("/images/:img", (req, res) => {
@@ -64,13 +65,10 @@ app.post("/profile", upload.single("img"), async (req, res) => {
         } else {
           res.status(200).json("updated");
         }
-      }
+      },
     );
   } else {
-    fs.unlink(
-      __dirname.split("/src")[0] + "/uploads/" + address + ".png",
-      (err) => {}
-    );
+    fs.unlink(__dirname.split("/src")[0] + "/uploads/" + address + ".png", (err) => {});
     res.status(200).json("image deleted");
   }
 });
@@ -81,6 +79,7 @@ app.use("/api/referral", referral);
 app.use("/api/auth", admin_auth);
 app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
+app.use("/api/loan", loan_routes);
 
 app.get("/api/test", (req, res) => {
   res.send("test");
@@ -97,9 +96,7 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
