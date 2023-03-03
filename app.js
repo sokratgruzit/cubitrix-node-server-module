@@ -29,7 +29,7 @@ app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 
 app.get("/images/:img", (req, res) => {
@@ -65,15 +65,18 @@ app.post("/profile", upload.single("img"), async (req, res) => {
         } else {
           res.status(200).json("updated");
         }
-      },
+      }
     );
   } else {
-    fs.unlink(__dirname.split("/src")[0] + "/uploads/" + address + ".png", (err) => {});
+    fs.unlink(
+      __dirname.split("/src")[0] + "/uploads/" + address + ".png",
+      (err) => {}
+    );
     res.status(200).json("image deleted");
   }
 });
 
-app.use("/accounts", accounts);
+app.use("/api/accounts", accounts);
 app.use("/api/transactions", transactions);
 app.use("/api/referral", referral);
 app.use("/api/auth", admin_auth);
@@ -96,7 +99,9 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
