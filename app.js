@@ -73,7 +73,7 @@ app.post("/profile", upload.single("img"), async (req, res) => {
   }
 });
 
-app.use("/accounts", accounts);
+app.use("/api/accounts", accounts);
 app.use("/api/transactions", transactions);
 app.use("/api/referral", referral);
 app.use("/api/auth", admin_auth);
