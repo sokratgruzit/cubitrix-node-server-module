@@ -38,7 +38,7 @@
     "multer": "^1.4.5-lts.1"
   },
   "devDependencies": {
-    "@cubitrix/cubitrix-node-accounts-module": "0.0.40",
+    "@cubitrix/cubitrix-node-accounts-module": "0.0.41",
     "@cubitrix/cubitrix-node-admin-module": "0.0.11",
     "@cubitrix/cubitrix-node-transactions-module": "0.0.15",
     "@cubitrix/cubitrix-refferal-node-module": "0.0.9",
