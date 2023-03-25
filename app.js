@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
-const config = require("config");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
@@ -29,7 +28,7 @@ app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 
 app.get("/images/:img", (req, res) => {
@@ -65,13 +64,10 @@ app.post("/profile", upload.single("img"), async (req, res) => {
         } else {
           res.status(200).json("updated");
         }
-      }
+      },
     );
   } else {
-    fs.unlink(
-      __dirname.split("/src")[0] + "/uploads/" + address + ".png",
-      (err) => {}
-    );
+    fs.unlink(__dirname.split("/src")[0] + "/uploads/" + address + ".png", (err) => {});
     res.status(200).json("image deleted");
   }
 });
@@ -99,9 +95,7 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
