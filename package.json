@@ -24,9 +24,9 @@
   "dependencies": {
     "@cubitrix/cubitrix-node-globals-module": "0.0.12",
     "@cubitrix/cubitrix-node-loan-module": "^1.0.2",
-    "@cubitrix/cubitrix-node-accounts-module": "0.0.47",
+    "@cubitrix/cubitrix-node-accounts-module": "0.0.58",
     "@cubitrix/cubitrix-node-admin-module": "0.0.11",
-    "@cubitrix/cubitrix-node-transactions-module": "^0.0.17",
+    "@cubitrix/cubitrix-node-transactions-module": "^0.0.20",
     "@cubitrix/cubitrix-refferal-node-module": "^0.0.11",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.20.0",
