@@ -22,13 +22,25 @@ const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
 
 const app = express();
-app.use(express.json({ extended: true }));
+
+app.use(
+  express.json({
+    extended: true,
+    verify: (req, res, buf) => {
+      const url = req.originalUrl;
+      if (url.startsWith("/api/transactions/coinbase_webhooks")) {
+        req.rawBody = buf.toString();
+      }
+    },
+  }),
+);
+
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 const rootDir = process.cwd(); // Get the current working directory
 
@@ -101,9 +113,7 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
