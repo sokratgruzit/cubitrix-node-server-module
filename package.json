@@ -26,7 +26,7 @@
     "@cubitrix/cubitrix-node-admin-module": "^0.0.11",
     "@cubitrix/cubitrix-node-globals-module": "0.0.12",
     "@cubitrix/cubitrix-node-loan-module": "^1.0.2",
-    "@cubitrix/cubitrix-node-transactions-module": ">=0.0.61",
+    "@cubitrix/cubitrix-node-transactions-module": ">=0.0.62",
     "@cubitrix/cubitrix-refferal-node-module": "^0.0.15",
     "@cubitrix/models": ">=0.0.52",
     "bcryptjs": "^2.4.3",
