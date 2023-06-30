@@ -25,35 +25,18 @@ const { referral } = require("@cubitrix/cubitrix-refferal-node-module");
 const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
 
 const octokit = new Octokit({
-  auth: process.env.OCTOKIT
+  auth: process.env.OCTOKIT,
 });
 
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 
-<<<<<<< HEAD
-const app = express();
-
-app.use(
-  express.json({
-    extended: true,
-    verify: (req, res, buf) => {
-      const url = req.originalUrl;
-      if (url.startsWith("/api/transactions/coinbase_webhooks")) {
-        req.rawBody = buf.toString();
-      }
-    },
-  }),
-);
-
-=======
 app.use(express.json({ extended: true }));
->>>>>>> c00e3b850c0764623a3eddc9a84f19c13b5c1547
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 const rootDir = process.cwd(); // Get the current working directory
 
@@ -114,22 +97,26 @@ app.use("/api/loan", loan_routes);
 app.post("/api/test", async (req, res) => {
   const { o, r, p, t } = req.body;
 
-  await octokit.request('GET /repos/{owner}/{repo}/contents/{path}', {
-    owner: o, //Owner of the repo (github username)
-    repo: r, //Name of the repo
-    path: p //Absolute path to file, for example: 'blockchains/aeternity/info/logo.png'
-  })
-  .then(passed => {
-    let response = null;
+  await octokit
+    .request("GET /repos/{owner}/{repo}/contents/{path}", {
+      owner: o, //Owner of the repo (github username)
+      repo: r, //Name of the repo
+      path: p, //Absolute path to file, for example: 'blockchains/aeternity/info/logo.png'
+    })
+    .then((passed) => {
+      let response = null;
 
-    if (t === "content") {
-      response = Buffer.from(passed.data[t], 'base64').toString();
-    } else {
-      response = passed.data[t /* Property from response object ('content', 'git_url', 'html_url', etc.) */];
-    }
-    console.log(passed.data)
-    return res.send(response);
-  });
+      if (t === "content") {
+        response = Buffer.from(passed.data[t], "base64").toString();
+      } else {
+        response =
+          passed.data[
+            t /* Property from response object ('content', 'git_url', 'html_url', etc.) */
+          ];
+      }
+      console.log(passed.data);
+      return res.send(response);
+    });
 });
 //static path
 const root = require("path").join(__dirname, "front", "build");
@@ -143,7 +130,9 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
