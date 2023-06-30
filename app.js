@@ -2,7 +2,6 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const mongoose = require("mongoose");
 const path = require("path");
-const config = require("config");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
@@ -23,18 +22,31 @@ const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
 
 const app = express();
-app.use(express.json({ extended: true }));
+
+app.use(
+  express.json({
+    extended: true,
+    verify: (req, res, buf) => {
+      const url = req.originalUrl;
+      if (url.startsWith("/api/transactions/coinbase_webhooks")) {
+        req.rawBody = buf.toString();
+      }
+    },
+  }),
+);
+
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
+const rootDir = process.cwd(); // Get the current working directory
 
 app.get("/images/:img", (req, res) => {
   try {
-    let imgPath = path.join(__dirname, `./uploads/${req.params.img}`);
+    let imgPath = path.join(rootDir, `./uploads/${req.params.img}`);
 
     if (fs.existsSync(imgPath)) {
       res.status(200).sendFile(imgPath);
@@ -47,32 +59,34 @@ app.get("/images/:img", (req, res) => {
 });
 
 app.post("/profile", upload.single("img"), async (req, res) => {
-  const { address } = req.body;
+  let { address } = req.body;
 
   if (!address && req.auth?.address) {
     address = req.auth.address;
   }
 
   if (req.file) {
-    var filePath = req.file.path;
+    const filePath = req.file.path;
 
-    fs.rename(
-      __dirname.split("/src")[0] + "/" + filePath,
-      __dirname.split("/src")[0] + "/uploads/" + address + ".png",
-      function (err) {
-        if (err) {
-          res.json({ success: false, message: err });
-        } else {
-          res.status(200).json("updated");
-        }
+    const destinationPath = path.join(rootDir, "uploads", `${address}.png`);
+
+    fs.rename(filePath, destinationPath, function (err) {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else {
+        res.status(200).json("updated");
       }
-    );
+    });
   } else {
-    fs.unlink(
-      __dirname.split("/src")[0] + "/uploads/" + address + ".png",
-      (err) => {}
-    );
-    res.status(200).json("image deleted");
+    const imagePath = path.join(rootDir, "uploads", `${address}.png`);
+
+    fs.unlink(imagePath, (err) => {
+      if (err) {
+        res.json({ success: false, message: err });
+      } else {
+        res.status(200).json("image deleted");
+      }
+    });
   }
 });
 
@@ -99,12 +113,11 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
+    //s
   }
 }
 
