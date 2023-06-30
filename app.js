@@ -10,7 +10,6 @@ const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
 const app = express();
-const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 const {
   admin_auth,
   admin_content,
