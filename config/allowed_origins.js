@@ -8,7 +8,9 @@ const allowed_origins = [
   "http://complend.shopgeorgia.ge",
   "http://complend.shopgeorgia.ge/",
   "http://complend-admin.shopgeorgia.ge/",
-  "http://complend-admin.shopgeorgia.ge"
+  "http://complend-admin.shopgeorgia.ge",
+  "https://cubitrix-front.onrender.com/",
+  "https://cubitrix-front.onrender.com",
 ];
 
 module.exports = allowed_origins;
