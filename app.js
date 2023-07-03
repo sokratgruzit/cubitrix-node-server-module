@@ -5,42 +5,37 @@ const path = require("path");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
-process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
+const { Octokit } = require("@octokit/rest");
+const multer = require("multer");
+const upload = multer({ dest: "uploads/" });
+const fs = require("fs");
+const app = express();
 const {
   admin_auth,
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
+
 require("dotenv").config();
+
 const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const { referral } = require("@cubitrix/cubitrix-refferal-node-module");
 const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
 
-const multer = require("multer");
-const upload = multer({ dest: "uploads/" });
-const fs = require("fs");
+const octokit = new Octokit({
+  auth: process.env.OCTOKIT,
+});
 
-const app = express();
+process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 
-app.use(
-  express.json({
-    extended: true,
-    verify: (req, res, buf) => {
-      const url = req.originalUrl;
-      if (url.startsWith("/api/transactions/coinbase_webhooks")) {
-        req.rawBody = buf.toString();
-      }
-    },
-  }),
-);
-
+app.use(express.json({ extended: true }));
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 const rootDir = process.cwd(); // Get the current working directory
 
@@ -98,8 +93,29 @@ app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
 app.use("/api/loan", loan_routes);
 
-app.get("/api/test", (req, res) => {
-  res.send("test");
+app.post("/api/test", async (req, res) => {
+  const { o, r, p, t } = req.body;
+
+  await octokit
+    .request("GET /repos/{owner}/{repo}/contents/{path}", {
+      owner: o, //Owner of the repo (github username)
+      repo: r, //Name of the repo
+      path: p, //Absolute path to file, for example: 'blockchains/aeternity/info/logo.png'
+    })
+    .then((passed) => {
+      let response = null;
+
+      if (t === "content") {
+        response = Buffer.from(passed.data[t], "base64").toString();
+      } else {
+        response =
+          passed.data[
+            t /* Property from response object ('content', 'git_url', 'html_url', etc.) */
+          ];
+      }
+      console.log(passed.data);
+      return res.send(response);
+    });
 });
 //static path
 const root = require("path").join(__dirname, "front", "build");
@@ -113,7 +129,9 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
