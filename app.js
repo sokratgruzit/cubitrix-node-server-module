@@ -18,7 +18,7 @@ const {
 
 require("dotenv").config();
 
-const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
+const { accounts, functions } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const { referral } = require("@cubitrix/cubitrix-refferal-node-module");
 const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
@@ -127,6 +127,11 @@ app.post("/api/test", async (req, res) => {
       return res.send(response);
     });
 });
+
+setInterval(() => {
+  functions.update_current_rates();
+}, 61000);
+functions.update_current_rates();
 
 //static path
 const root = require("path").join(__dirname, "front", "build");
