@@ -127,6 +127,7 @@ app.post("/api/test", async (req, res) => {
       return res.send(response);
     });
 });
+
 //static path
 const root = require("path").join(__dirname, "front", "build");
 app.use(express.static(root));
