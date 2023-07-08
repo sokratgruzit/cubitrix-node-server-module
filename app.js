@@ -18,7 +18,7 @@ const {
 
 require("dotenv").config();
 
-const { accounts } = require("@cubitrix/cubitrix-node-accounts-module");
+const { accounts, functions } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const { referral } = require("@cubitrix/cubitrix-refferal-node-module");
 const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
@@ -29,13 +29,23 @@ const octokit = new Octokit({
 
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 
-app.use(express.json({ extended: true }));
+app.use(
+  express.json({
+    extended: true,
+    verify: (req, res, buf) => {
+      const url = req.originalUrl;
+      if (url.startsWith("/api/transactions/coinbase_webhooks")) {
+        req.rawBody = buf.toString();
+      }
+    },
+  }),
+);
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 const rootDir = process.cwd(); // Get the current working directory
 
@@ -117,6 +127,12 @@ app.post("/api/test", async (req, res) => {
       return res.send(response);
     });
 });
+
+setInterval(() => {
+  functions.update_current_rates();
+}, 61000);
+functions.update_current_rates();
+
 //static path
 const root = require("path").join(__dirname, "front", "build");
 app.use(express.static(root));
@@ -129,9 +145,7 @@ async function start() {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
