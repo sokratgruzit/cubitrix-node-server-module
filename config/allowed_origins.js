@@ -1,5 +1,6 @@
 const allowed_origins = [
   "http://localhost:3000",
+  "http://localhost:3000/",
   "http://localhost:6006",
   "https://complend.shopgeorgia.ge",
   "https://complend.shopgeorgia.ge/",
