@@ -27,7 +27,7 @@
     "@cubitrix/cubitrix-node-globals-module": "0.0.12",
     "@cubitrix/cubitrix-node-loan-module": "^1.0.2",
     "@cubitrix/cubitrix-node-transactions-module": ">=0.1.15",
-    "@cubitrix/cubitrix-refferal-node-module": ">=0.0.39",
+    "@cubitrix/cubitrix-refferal-node-module": ">=0.0.44",
     "@cubitrix/models": ">=0.0.71",
     "@octokit/rest": "^19.0.7",
     "axios": "^1.4.0",
@@ -42,7 +42,8 @@
     "mongoose": "^6.4.6",
     "mongoose-paginate": "^5.0.3",
     "mongoose-slug-updater": "^3.3.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.2"
   },
   "devDependencies": {
     "mongoose": "^6.4.6",
