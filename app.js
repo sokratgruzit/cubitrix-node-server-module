@@ -20,10 +20,7 @@ require("dotenv").config();
 
 const cron = require("node-cron");
 
-const {
-  accounts,
-  functions,
-} = require("@cubitrix/cubitrix-node-accounts-module");
+const { accounts, functions } = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const {
   referral,
@@ -46,14 +43,14 @@ app.use(
         req.rawBody = buf.toString();
       }
     },
-  })
+  }),
 );
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  })
+  }),
 );
 const rootDir = process.cwd(); // Get the current working directory
 
@@ -182,13 +179,13 @@ const getdaysBetween = () => {
   const firstDayOfCurrentMonth = new Date(currentYear, currentMonth - 1, 1);
 
   const daysBetween = Math.round(
-    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24)
+    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24),
   );
   return daysBetween;
 };
 
-setInterval(() => {
-  functions.update_current_rates();
+setInterval(async () => {
+  await functions.update_current_rates();
 }, 61000);
 functions.update_current_rates();
 
@@ -205,9 +202,7 @@ async function start() {
       useUnifiedTopology: true,
     });
 
-    app.listen(PORT, () =>
-      console.log(`App has been started on port ${PORT}...`)
-    );
+    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
