@@ -108,8 +108,8 @@ app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
 app.use("/api/loan", loan_routes);
 
-app.post("/api/test", async (req, res) => {
-  const { o, r, p, t } = req.body;
+// app.post("/api/test", async (req, res) => {
+//   const { o, r, p, t } = req.body;
 
 //   await octokit
 //     .request("GET /repos/{owner}/{repo}/contents/{path}", {
