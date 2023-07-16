@@ -48,5 +48,8 @@
   "devDependencies": {
     "mongoose": "^6.4.6",
     "nodemon": "^2.0.20"
+  },
+  "optionalDependencies": {
+    "fsevents": "^2.3.2"
   }
 }
