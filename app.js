@@ -99,6 +99,7 @@ async function start() {
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
+    //s
   }
 }
 
