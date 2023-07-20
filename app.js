@@ -28,8 +28,6 @@ const {
 } = require("@cubitrix/cubitrix-refferal-node-module");
 const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
 
-const multer = require("multer");
-const fs = require("fs");
 const octokit = new Octokit({
   auth: process.env.OCTOKIT,
 });
@@ -41,9 +39,9 @@ app.use(
     extended: true,
     verify: (req, res, buf) => {
       const url = req?.originalUrl;
-      console.log(url)
+      console.log(req?.originalUrl);
       if (url?.startsWith("/api/transactions/coinbase_webhooks")) {
-        req?.rawBody = buf?.toString();
+        req.rawBody = buf.toString();
       }
     },
   }),
