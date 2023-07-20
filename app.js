@@ -39,8 +39,7 @@ app.use(
     extended: true,
     verify: (req, res, buf) => {
       const url = req?.originalUrl;
-      console.log(req?.originalUrl);
-      if (url?.startsWith("/api/transactions/coinbase_webhooks")) {
+      if (url === "/api/transactions/coinbase_webhooks") {
         req.rawBody = buf.toString();
       }
     },
