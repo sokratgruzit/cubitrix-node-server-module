@@ -38,13 +38,14 @@ app.use(
   express.json({
     extended: true,
     verify: (req, res, buf) => {
-      const url = req.originalUrl;
-      if (url.startsWith("/api/transactions/coinbase_webhooks")) {
+      const url = req?.originalUrl;
+      if (url === "/api/transactions/coinbase_webhooks") {
         req.rawBody = buf.toString();
       }
     },
   }),
 );
+//
 app.use(credentials);
 app.use(cors(cors_options));
 app.use(
