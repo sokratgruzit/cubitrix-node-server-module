@@ -22,13 +22,13 @@
   },
   "homepage": "https://github.com/sokratgruzit/cubitrix-node-server-module#readme",
   "dependencies": {
-    "@cubitrix/cubitrix-node-accounts-module": "^0.1.10",
-    "@cubitrix/cubitrix-node-admin-module": ">=0.0.12",
+    "@cubitrix/cubitrix-node-accounts-module": "^0.1.32",
+    "@cubitrix/cubitrix-node-admin-module": ">=0.0.23",
     "@cubitrix/cubitrix-node-globals-module": "0.0.12",
     "@cubitrix/cubitrix-node-loan-module": "^1.0.2",
-    "@cubitrix/cubitrix-node-transactions-module": ">=0.1.15",
+    "@cubitrix/cubitrix-node-transactions-module": ">=0.1.26",
     "@cubitrix/cubitrix-refferal-node-module": ">=0.0.51",
-    "@cubitrix/models": ">=0.0.71",
+    "@cubitrix/models": ">=0.0.77",
     "@octokit/rest": "^19.0.7",
     "axios": "^1.4.0",
     "bcryptjs": "^2.4.3",
@@ -42,7 +42,8 @@
     "mongoose": "^6.4.6",
     "mongoose-paginate": "^5.0.3",
     "mongoose-slug-updater": "^3.3.0",
-    "multer": "^1.4.5-lts.1"
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.2"
   },
   "devDependencies": {
     "mongoose": "^6.4.6",
