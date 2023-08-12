@@ -147,22 +147,23 @@ cron.schedule("0 0 * * *", async () => {
 
   if (uni_days == "daily") {
     await referral_controller.uni_comission_count(1);
-  } else if ((uni_days = "montly")) {
+  } else if (uni_days === "monthly") {
+    console.log("here");
     if (currentDay === 1) {
       await referral_controller.uni_comission_count(daysBetween);
     }
-  } else if ((uni_days = "weekly")) {
+  } else if (uni_days === "weekly") {
     if (currentDayOfWeek === 1) {
       await referral_controller.uni_comission_count(7);
     }
   }
   if (binary_bv_dayes == "daily") {
     await referral_controller.binary_comission_count(1);
-  } else if ((binary_bv_dayes = "montly")) {
+  } else if (binary_bv_dayes == "monthly") {
     if (currentDay === 1) {
       await referral_controller.binary_comission_count(daysBetween);
     }
-  } else if ((uni_days = "weekly")) {
+  } else if (uni_days == "weekly") {
     if (currentDayOfWeek === 1) {
       await referral_controller.binary_comission_count(7);
     }
