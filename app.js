@@ -5,7 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
-const { Octokit } = require("@octokit/rest");
+//const { Octokit } = require("@octokit/rest");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
 const fs = require("fs");
@@ -28,9 +28,9 @@ const {
 } = require("@cubitrix/cubitrix-refferal-node-module");
 const { loan_routes } = require("@cubitrix/cubitrix-node-loan-module");
 
-const octokit = new Octokit({
-  auth: process.env.OCTOKIT,
-});
+// const octokit = new Octokit({
+//   auth: process.env.OCTOKIT,
+// });
 
 process.env["NODE_CONFIG_DIR"] = __dirname + "/config";
 
@@ -109,30 +109,31 @@ app.use("/api/content", admin_content);
 app.use("/api/data", admin_data);
 app.use("/api/loan", loan_routes);
 
-app.post("/api/test", async (req, res) => {
-  const { o, r, p, t } = req.body;
+// app.post("/api/test", async (req, res) => {
+//   const { o, r, p, t } = req.body;
 
-  await octokit
-    .request("GET /repos/{owner}/{repo}/contents/{path}", {
-      owner: o, //Owner of the repo (github username)
-      repo: r, //Name of the repo
-      path: p, //Absolute path to file, for example: 'blockchains/aeternity/info/logo.png'
-    })
-    .then((passed) => {
-      let response = null;
+//   await octokit
+//     .request("GET /repos/{owner}/{repo}/contents/{path}", {
+//       owner: o, //Owner of the repo (github username)
+//       repo: r, //Name of the repo
+//       path: p, //Absolute path to file, for example: 'blockchains/aeternity/info/logo.png'
+//     })
+//     .then((passed) => {
+//       let response = null;
 
-      if (t === "content") {
-        response = Buffer.from(passed.data[t], "base64").toString();
-      } else {
-        response =
-          passed.data[
-            t /* Property from response object ('content', 'git_url', 'html_url', etc.) */
-          ];
-      }
-      console.log(passed.data);
-      return res.send(response);
-    });
-});
+//       if (t === "content") {
+//         response = Buffer.from(passed.data[t], "base64").toString();
+//       } else {
+//         response =
+//           passed.data[
+//             t /* Property from response object ('content', 'git_url', 'html_url', etc.) */
+//           ];
+//       }
+//       console.log(passed.data);
+//       return res.send(response);
+//     });
+// });
+//Commented out octokit
 
 cron.schedule("0 0 * * *", async () => {
   let daysBetween = getdaysBetween();
