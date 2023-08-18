@@ -20,7 +20,10 @@ require("dotenv").config();
 
 const cron = require("node-cron");
 
-const { accounts, functions } = require("@cubitrix/cubitrix-node-accounts-module");
+const {
+  accounts,
+  functions,
+} = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const {
   referral,
@@ -43,7 +46,7 @@ app.use(
         req.rawBody = buf.toString();
       }
     },
-  }),
+  })
 );
 //
 app.use(credentials);
@@ -51,7 +54,7 @@ app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 const rootDir = process.cwd(); // Get the current working directory
 
@@ -144,6 +147,7 @@ cron.schedule("0 0 * * *", async () => {
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentDayOfWeek = currentDate.getDay();
+  stakedToday;
 
   if (uni_days == "daily") {
     await referral_controller.uni_comission_count(1);
@@ -168,6 +172,10 @@ cron.schedule("0 0 * * *", async () => {
       await referral_controller.binary_comission_count(7);
     }
   }
+  await accounts.updateMany({}, { $set: { stakedToday: 0 } });
+  if (currentDay === 1) {
+    await accounts.updateMany({}, { $set: { stakedThisMonth: 0 } });
+  }
 });
 
 const getdaysBetween = () => {
@@ -182,7 +190,7 @@ const getdaysBetween = () => {
   const firstDayOfCurrentMonth = new Date(currentYear, currentMonth - 1, 1);
 
   const daysBetween = Math.round(
-    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24),
+    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24)
   );
   return daysBetween;
 };
@@ -205,7 +213,9 @@ async function start() {
       useUnifiedTopology: true,
     });
 
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
