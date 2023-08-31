@@ -15,6 +15,7 @@ const {
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
+const { options } = require("@cubitrix/models");
 
 require("dotenv").config();
 
@@ -140,9 +141,14 @@ app.use("/api/loan", loan_routes);
 
 cron.schedule("0 0 * * *", async () => {
   let daysBetween = getdaysBetween();
-
-  let binary_bv_dayes = "monthly";
-  let uni_days = "daily";
+  let referral_options = await options.findOne({
+    key: "referral_binary_bv_options",
+  });
+  let referral_options_uni = await options.findOne({
+    key: "referral_uni_options",
+  });
+  let uni_days = referral_options_uni?.object_value?.uniData?.calculated;
+  let binary_bv_dayes = referral_options?.object_value?.binaryData?.calculated;
 
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
