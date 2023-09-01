@@ -5,6 +5,7 @@ const path = require("path");
 const cors = require("cors");
 const cors_options = require("./config/cors_options");
 const credentials = require("./middleware/credentials");
+const isAuthenticated = require("./middleware/IsAuthenticated");
 const { Octokit } = require("@octokit/rest");
 const multer = require("multer");
 const upload = multer({ dest: "uploads/" });
@@ -15,6 +16,7 @@ const {
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
+const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
@@ -46,14 +48,16 @@ app.use(
   }),
 );
 //
+app.use(cookieParser());
 app.use(credentials);
+app.use(isAuthenticated);
 app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
   }),
 );
-const rootDir = process.cwd(); // Get the current working directory
+const rootDir = process.cwd();
 
 app.get("/images/:img", (req, res) => {
   try {
@@ -148,7 +152,6 @@ cron.schedule("0 0 * * *", async () => {
   if (uni_days == "daily") {
     await referral_controller.uni_comission_count(1);
   } else if (uni_days === "monthly") {
-    console.log("here");
     if (currentDay === 1) {
       await referral_controller.uni_comission_count(daysBetween);
     }
