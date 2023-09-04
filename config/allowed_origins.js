@@ -14,7 +14,9 @@ const allowed_origins = [
   "https://cubitrix-front.onrender.com/",
   "https://cubitrix-front.onrender.com",
   "https://cubitrix-react-wrapper.vercel.app/",
-  "https://cubitrix-react-wrapper.vercel.app"
+  "https://cubitrix-react-wrapper.vercel.app",
+  "https://cubitrix-react-admin-module.vercel.app/",
+  "https://cubitrix-react-admin-module.vercel.app"
 ];
 
 module.exports = allowed_origins;
