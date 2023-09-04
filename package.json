@@ -26,7 +26,7 @@
     "@cubitrix/cubitrix-node-admin-module": ">=0.0.45",
     "@cubitrix/cubitrix-node-globals-module": "0.0.12",
     "@cubitrix/cubitrix-node-loan-module": "^1.0.2",
-    "@cubitrix/cubitrix-node-transactions-module": ">=0.1.46",
+    "@cubitrix/cubitrix-node-transactions-module": ">=0.1.48",
     "@cubitrix/cubitrix-refferal-node-module": ">=0.0.80",
     "@cubitrix/models": ">=0.1.03",
     "@octokit/rest": "^19.0.7",
