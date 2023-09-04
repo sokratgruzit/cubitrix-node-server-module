@@ -16,11 +16,8 @@ const {
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
-<<<<<<< HEAD
 const { options } = require("@cubitrix/models");
-=======
 const cookieParser = require("cookie-parser");
->>>>>>> 5596129d9fc8186cb37e51c92a41f7dcf772f94a
 
 require("dotenv").config();
 
