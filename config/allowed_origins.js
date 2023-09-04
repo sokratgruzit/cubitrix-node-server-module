@@ -13,6 +13,8 @@ const allowed_origins = [
   "http://complend-admin.shopgeorgia.ge",
   "https://cubitrix-front.onrender.com/",
   "https://cubitrix-front.onrender.com",
+  "https://cubitrix-react-wrapper.vercel.app/",
+  "https://cubitrix-react-wrapper.vercel.app"
 ];
 
 module.exports = allowed_origins;
