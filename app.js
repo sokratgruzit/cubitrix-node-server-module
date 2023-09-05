@@ -16,17 +16,17 @@ const {
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
-<<<<<<< HEAD
 const { options } = require("@cubitrix/models");
-=======
 const cookieParser = require("cookie-parser");
->>>>>>> 5596129d9fc8186cb37e51c92a41f7dcf772f94a
 
 require("dotenv").config();
 
 const cron = require("node-cron");
 
-const { accounts, functions } = require("@cubitrix/cubitrix-node-accounts-module");
+const {
+  accounts,
+  functions,
+} = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const {
   referral,
@@ -49,7 +49,7 @@ app.use(
         req.rawBody = buf.toString();
       }
     },
-  }),
+  })
 );
 //
 app.use(cookieParser());
@@ -59,7 +59,7 @@ app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 const rootDir = process.cwd();
 
@@ -198,7 +198,7 @@ const getdaysBetween = () => {
   const firstDayOfCurrentMonth = new Date(currentYear, currentMonth - 1, 1);
 
   const daysBetween = Math.round(
-    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24),
+    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24)
   );
   return daysBetween;
 };
@@ -221,7 +221,9 @@ async function start() {
       useUnifiedTopology: true,
     });
 
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
