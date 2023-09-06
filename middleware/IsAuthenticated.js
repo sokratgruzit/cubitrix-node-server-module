@@ -20,9 +20,13 @@ function refresh(req, res) {
   if (refreshToken) {
     try {
       const decoded = jwt.verify(refreshToken, config.jwtSecret);
-      const accessToken = jwt.sign({ address: decoded.address }, config.jwtSecret, {
-        expiresIn: "15m",
-      });
+      const accessToken = jwt.sign(
+        { address: decoded.address, mainAddress: decoded.mainAddress },
+        config.jwtSecret,
+        {
+          expiresIn: "15m",
+        },
+      );
       req.address = decoded.address;
       res.cookie("Access-Token", accessToken, {
         sameSite: "none",
