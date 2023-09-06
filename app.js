@@ -16,13 +16,17 @@ const {
   admin_content,
   admin_data,
 } = require("@cubitrix/cubitrix-node-admin-module");
+const { options } = require("@cubitrix/models");
 const cookieParser = require("cookie-parser");
 
 require("dotenv").config();
 
 const cron = require("node-cron");
 
-const { accounts, functions } = require("@cubitrix/cubitrix-node-accounts-module");
+const {
+  accounts,
+  functions,
+} = require("@cubitrix/cubitrix-node-accounts-module");
 const { transactions } = require("@cubitrix/cubitrix-node-transactions-module");
 const {
   referral,
@@ -45,7 +49,7 @@ app.use(
         req.rawBody = buf.toString();
       }
     },
-  }),
+  })
 );
 //
 app.use(cookieParser());
@@ -55,7 +59,7 @@ app.use(cors(cors_options));
 app.use(
   bodyParser.urlencoded({
     extended: true,
-  }),
+  })
 );
 const rootDir = process.cwd();
 
@@ -140,9 +144,14 @@ app.post("/api/test", async (req, res) => {
 
 cron.schedule("0 0 * * *", async () => {
   let daysBetween = getdaysBetween();
-
-  let binary_bv_dayes = "monthly";
-  let uni_days = "daily";
+  let referral_options = await options.findOne({
+    key: "referral_binary_bv_options",
+  });
+  let referral_options_uni = await options.findOne({
+    key: "referral_uni_options",
+  });
+  let uni_days = referral_options_uni?.object_value?.uniData?.calculated;
+  let binary_bv_dayes = referral_options?.object_value?.binaryData?.calculated;
 
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
@@ -189,7 +198,7 @@ const getdaysBetween = () => {
   const firstDayOfCurrentMonth = new Date(currentYear, currentMonth - 1, 1);
 
   const daysBetween = Math.round(
-    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24),
+    (firstDayOfCurrentMonth - firstDayOfPreviousMonth) / (1000 * 60 * 60 * 24)
   );
   return daysBetween;
 };
@@ -212,7 +221,9 @@ async function start() {
       useUnifiedTopology: true,
     });
 
-    app.listen(PORT, () => console.log(`App has been started on port ${PORT}...`));
+    app.listen(PORT, () =>
+      console.log(`App has been started on port ${PORT}...`)
+    );
   } catch (e) {
     console.log(`Server Error ${e.message}`);
     process.exit(1);
