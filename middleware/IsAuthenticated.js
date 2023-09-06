@@ -20,7 +20,6 @@ function refresh(req, res) {
   if (refreshToken) {
     try {
       const decoded = jwt.verify(refreshToken, config.jwtSecret);
-      console.log(decoded, "decodeeed");
       const accessToken = jwt.sign(
         { address: decoded.address, mainAddress: decoded.mainAddress },
         config.jwtSecret,
