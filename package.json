@@ -22,7 +22,7 @@
   },
   "homepage": "https://github.com/sokratgruzit/cubitrix-node-server-module#readme",
   "dependencies": {
-    "@cubitrix/cubitrix-node-accounts-module": "^0.1.63",
+    "@cubitrix/cubitrix-node-accounts-module": "^0.1.64",
     "@cubitrix/cubitrix-node-admin-module": ">=0.0.45",
     "@cubitrix/cubitrix-node-globals-module": "0.0.12",
     "@cubitrix/cubitrix-node-loan-module": "^1.0.2",
