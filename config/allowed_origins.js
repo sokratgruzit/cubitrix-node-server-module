@@ -8,7 +8,7 @@ const allowed_origins = [
   "https://cubitrix-react-admin-module.vercel.app/",
   "https://cubitrix-react-admin-module.vercel.app",
   "https://cubitrix-react-wrapper-nu.vercel.app/",
-  "https://cubitrix-react-wrapper-nu.vercel.app"
+  "https://cubitrix-react-wrapper-nu.vercel.app",
 ];
 
 module.exports = allowed_origins;
